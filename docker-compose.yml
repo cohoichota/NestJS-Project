@@ -1,0 +1,59 @@
+services:
+  postgres-container:
+    image: postgres:latest
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: Abc123456789@
+      POSTGRES_DB: nest-project
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - my_network
+
+  pgadmin-container:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: Admin123456
+    ports:
+      - '5050:80'
+    networks:
+      - my_network
+
+  nestjs-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nestjs-app
+    environment:
+      DATABASE_TYPE: postgres
+      DATABASE_HOST: postgres-container
+      DATABASE_PORT: 5432
+      DATABASE_USERNAME: user
+      DATABASE_PASSWORD: Abc123456789@
+      DATABASE_NAME: nest-project
+      PORT: 8080
+      JWT_SECRET_KEY: 536b8520-84b9-45cf-a986-348bafb761d2
+      JWT_ACCESS_TOKEN_EXPIRED: 3600s
+    ports:
+      - '8080:8080'
+    depends_on:
+      - postgres-container
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+#docker-compose -f ./docker-compose.yml up -d postgres-container
+#docker-compose -f ./docker-compose.yml up -d pgadmin-container
+#docker-compose -f ./docker-compose.yml --env-file .env.production up -d nestjs-app
+
+#docker-compose up -d
