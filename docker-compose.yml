@@ -52,8 +52,8 @@ networks:
 
 volumes:
   postgres_data:
-#docker-compose -f ./docker-compose.yml up -d postgres-container
-#docker-compose -f ./docker-compose.yml up -d pgadmin-container
-#docker-compose -f ./docker-compose.yml --env-file .env.production up -d nestjs-app
+#docker compose -f ./docker-compose.yml up -d postgres-container
+#docker compose -f ./docker-compose.yml up -d pgadmin-container
+#docker compose -f ./docker-compose.yml --env-file .env.production up -d nestjs-app
 
 #docker-compose up -d
